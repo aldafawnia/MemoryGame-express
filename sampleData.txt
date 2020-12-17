@@ -1,0 +1,12 @@
+sample card cities data =
+
+{"_id":{"$oid":"5fd9b60a05832ef832fb7604"},
+"landmark":"prambanan",
+"image":"prambanan.png",
+"match_with":"yogkarta"}
+
+sample username data = 
+
+{"_id":{"$oid":"5fd9b11e05832ef832fb7601"},
+"username":"Alda",
+"Time":"30"}
