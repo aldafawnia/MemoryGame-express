@@ -6,6 +6,7 @@ const ObjectId = require('mongodb').ObjectId;
 let db = MongoUtil.getDB();
 
 router.get('/', async (req,res)=>{
+        let db = MongoUtil.getDB();
     let score = await db.collection('scoreBoard').find().toArray();
     res.send(score);
         // 'cities',{

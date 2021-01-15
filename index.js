@@ -19,7 +19,7 @@ async function main() {
     const scoreRoutes = require('./routes/scoreRoutes')
     // const userRoutes = require('./routes/userRoutes')
 
-    app.use('', citiesRoutes);
+    app.use('/cities', citiesRoutes);
     app.use('/score', scoreRoutes);
     // app.use('/users', userRoutes);
 
