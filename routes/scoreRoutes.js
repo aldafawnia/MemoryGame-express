@@ -14,12 +14,12 @@ router.get('/', async (req,res)=>{
     // })
 })
 
-router.get('/:id', async(req,res)=>{
+router.get('/:username', async(req,res)=>{
     let db = MongoUtil.getDB();
-    let fault = await db.collection('faults').findOne({
-        '_id': ObjectId(req.params.id)
+    let score = await db.collection('scoreBoard').findOne({
+        'username': req.params.username
     });
-    res.send(fault);
+    res.send(score);
 })
 
 router.post('/', async (req, res) => {
@@ -27,68 +27,42 @@ router.post('/', async (req, res) => {
 
     // extract out all the fields
     let {
-        title, location, tags, block, reporter_name, reporter_email, date
+        username, time
     } = req.body;
 
-    // JavaScript black magic
-    // let newFault = {...req.body};
-
-    // tags could be an array, or a single item, or undefined (because the user didn't check any checkbox)
-
-    // for undefined: if tags is undefined, it will be an empty array
-    tags = tags || [];
-
-    // if tags is not an array, convert to array
-    tags = Array.isArray(tags) ? tags : [tags];
-
-    date = new Date(date);
-
-    let results = await db.collection('faults').insertOne({
-        title, location, tags, block, reporter_name, reporter_email, date
+    let results = await db.collection('scoreBoard').insertOne({
+        username, time
     })
 
     // if I use res.send and it sends back an array or an object,
     // express will auto convert it to be JSON
     res.send({
-        'message': 'New fault report has been created successfully!',
         'inserterdid': results.insertedId
     })
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/username', async (req, res) => {
     let db = MongoUtil.getDB();
-    let id = req.params.id;
+    let username = req.params.username;
 
     let {
-        title, location, tags, block, reporter_name, reporter_email, date
+        username, time
     } = req.body;
 
-    // JavaScript black magic
-    // let newFault = {...req.body};
-
-    // tags could be an array, or a single item, or undefined (because the user didn't check any checkbox)
-
-    // for undefined: if tags is undefined, it will be an empty array
-    tags = tags || [];
-
-    // if tags is not an array, convert to array
-    tags = Array.isArray(tags) ? tags : [tags];
-
-    date = new Date(date);
-
-    let results = await db.collection('faults').updateOne({
-        '_id': ObjectId(id)
+    let results = await db.collection('scoreBoard').updateOne({
+        'username': username
     },
     {
         '$set': {
-            title, location, tags, block, reporter_name, reporter_email, date
+            username, time
         }
 
     });
 
     res.send({
-        'message': 'Update done',
-        'status': 'OK'
+        // 'message': 'Update done',
+        // 'status': 'OK'
+        'Status': 'Updated'
     })
 
 })
